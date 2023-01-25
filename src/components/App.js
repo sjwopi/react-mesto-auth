@@ -1,38 +1,50 @@
 import React from 'react';
-import api from '../utils/api.js'
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+
+import api from '../utils/api.js';
 import CurrentUserContext from '../contexts/CurrentUserContext.js';
+import ProtectedRoute from './ProtectedRoute.js';
+
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
-import PopupWithForm from './PopupWithForm.js'
+import PopupWithForm from './PopupWithForm.js';
 import EditProfilePopup from './EditProfilePopup.js';
-import EditAvatarePopup from './EditAvatarPopup.js'
+import EditAvatarePopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import ImagePopup from './ImagePopup.js';
+import Register from "./Register.js";
+import Login from "./Login.js";
 
 function App() {
-  const [isPopupEditAvatarOpen, setIsPopupEditAvatarOpen] = React.useState(false);
-  const [isPopupEditProfileOpen, setIsPopupEditProfileOpen] = React.useState(false);
+  const [isPopupEditAvatarOpen, setIsPopupEditAvatarOpen] =
+    React.useState(false);
+  const [isPopupEditProfileOpen, setIsPopupEditProfileOpen] =
+    React.useState(false);
   const [isPopupAddPlaceOpen, setIsPopupAddPlaceOpen] = React.useState(false);
-  const [isPopupConfirmActionOpen, setIsPopupConfirmActionOpen] = React.useState({isOpen: false, card: {}});
+  const [isPopupConfirmActionOpen, setIsPopupConfirmActionOpen] =
+    React.useState({ isOpen: false, card: {} });
   const [isCardOpened, setIsCardOpened] = React.useState(null);
 
   const [cards, setCards] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     api
-    .getInitialCards()
-    .then((res) => {
-      setCards(res);
-    })
-    .catch(console.error);
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch(console.error);
     api
       .getUserInfo()
       .then((res) => {
         setCurrentUser(res);
       })
-      .catch(console.error)
+      .catch(console.error);
   }, []);
 
   function handleEditAvatarClick() {
@@ -45,14 +57,14 @@ function App() {
     setIsPopupAddPlaceOpen(true);
   }
   function handleOpenImageClick(card) {
-    setIsCardOpened(card)
+    setIsCardOpened(card);
   }
   function closeAllPopups() {
     setIsPopupEditAvatarOpen(false);
     setIsPopupEditProfileOpen(false);
     setIsPopupAddPlaceOpen(false);
-    setIsCardOpened(null)
-    setIsPopupConfirmActionOpen({isOpen: false, card: {}});
+    setIsCardOpened(null);
+    setIsPopupConfirmActionOpen({ isOpen: false, card: {} });
   }
   function closeCLickOverlay(evt) {
     if (evt.target.classList.contains('popup_opened')) {
@@ -63,17 +75,17 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
     if (!isLiked) {
-      api
-        .setLike(card._id)
-        .then((newCard) => { setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)))
-        .catch(console.error);
+      api.setLike(card._id).then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        ).catch(console.error);
       });
     } else {
-      api
-      .deleteLike(card._id)
-      .then((newCard) => { setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)))
-      .catch(console.error);
-    });
+      api.deleteLike(card._id).then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        ).catch(console.error);
+      });
     }
   }
   function handleCardDelete(card) {
@@ -86,7 +98,8 @@ function App() {
       .catch(console.error);
   }
   function handleUpdateUser(userInfo) {
-    api.editUserInfo(userInfo)
+    api
+      .editUserInfo(userInfo)
       .then((newUserInfo) => {
         setCurrentUser(newUserInfo);
         closeAllPopups();
@@ -94,7 +107,8 @@ function App() {
       .catch(console.error);
   }
   function handleUpdateAvatar(avatar) {
-    api.editAvatar(avatar)
+    api
+      .editAvatar(avatar)
       .then((newUserInfo) => {
         setCurrentUser(newUserInfo);
         closeAllPopups();
@@ -105,23 +119,46 @@ function App() {
     api
       .createCard(card)
       .then((newCard) => {
-        setCards([newCard, ...cards])
+        setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch(console.error);
   }
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Header />
-      <Main
-        cards={cards}
-        onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick}
-        onEditAvatar={handleEditAvatarClick}
-        onCardOpen={handleOpenImageClick}
-        onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete}
-      />
+      
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Main
+                cards={cards}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardOpen={handleOpenImageClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sign-up"
+          element={<Register />}
+        />
+
+        <Route
+          path="/sign-in"
+          element={ <Login /> }
+        />
+
+        <Route
+          path="*"
+          element={ isLoggedIn ? navigate('/', {replace: true}) : navigate('/sign-in', {replace: true}) }
+        />
+      </Routes>
       <Footer />
 
       <EditProfilePopup
@@ -149,8 +186,8 @@ function App() {
         textBtn="Удалить"
         isOpen={isPopupConfirmActionOpen.isOpen}
         onClose={closeAllPopups}
-        onCloseOverlay={closeCLickOverlay}>
-      </PopupWithForm>
+        onCloseOverlay={closeCLickOverlay}
+      ></PopupWithForm>
 
       <ImagePopup
         card={isCardOpened}

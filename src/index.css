@@ -5,6 +5,7 @@
 
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__link/header__link.css);
 
 @import url(./blocks/content/content.css);
 
@@ -47,6 +48,12 @@
 @import url(./blocks/popup-card/__img/popup-card__img.css);
 @import url(./blocks/popup-card/__text/popup-card__text.css);
 @import url(./blocks/popup-card/__close-btn/popup-card__close-btn.css);
+
+@import url(./blocks/login/login.css);
+@import url(./blocks/login/__title/login__title.css);
+@import url(./blocks/login/__form/login__form.css);
+@import url(./blocks/login/__input/login__input.css);
+@import url(./blocks/login/__save-btn/login__save-btn.css);
 
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__text/footer__text.css);
