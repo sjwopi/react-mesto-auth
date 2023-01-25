@@ -5,7 +5,6 @@ import api from '../utils/api.js';
 import CurrentUserContext from '../contexts/CurrentUserContext.js';
 import ProtectedRoute from './ProtectedRoute.js';
 
-import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
@@ -15,6 +14,7 @@ import AddPlacePopup from './AddPlacePopup.js';
 import ImagePopup from './ImagePopup.js';
 import Register from "./Register.js";
 import Login from "./Login.js";
+import InfoTooltip from './InfoTooltip.js';
 
 function App() {
   const [isPopupEditAvatarOpen, setIsPopupEditAvatarOpen] =
@@ -154,10 +154,10 @@ function App() {
           element={ <Login /> }
         />
 
-        <Route
+        {/* <Route
           path="*"
           element={ isLoggedIn ? navigate('/', {replace: true}) : navigate('/sign-in', {replace: true}) }
-        />
+        /> */}
       </Routes>
       <Footer />
 
@@ -194,6 +194,7 @@ function App() {
         onClose={closeAllPopups}
         onCloseOverlay={closeCLickOverlay}
       />
+      <InfoTooltip />
     </CurrentUserContext.Provider>
   );
 }

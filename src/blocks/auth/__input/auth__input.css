@@ -1,4 +1,4 @@
-.login__input {
+.auth__input {
   width: 100%;
   background: none;
   border: none;
@@ -7,10 +7,11 @@
   line-height: 17px;
   color: #ffffff;
   opacity: 1;
+  outline: none;
   padding: 13px 0;
   margin: 0 0 25px 0;
 }
-.login__input::placeholder {
+.auth__input::placeholder {
   font-size: 14px;
   line-height: 17px;
   color: #cccccc;

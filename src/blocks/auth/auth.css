@@ -1,6 +1,6 @@
-.login {
+.auth {
   max-width: 358px;
-  margin: 0 auto;
+  margin: 0 auto 180px auto;
   display: flex;
   flex-direction: column;
 }

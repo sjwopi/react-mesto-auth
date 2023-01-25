@@ -49,11 +49,12 @@
 @import url(./blocks/popup-card/__text/popup-card__text.css);
 @import url(./blocks/popup-card/__close-btn/popup-card__close-btn.css);
 
-@import url(./blocks/login/login.css);
-@import url(./blocks/login/__title/login__title.css);
-@import url(./blocks/login/__form/login__form.css);
-@import url(./blocks/login/__input/login__input.css);
-@import url(./blocks/login/__save-btn/login__save-btn.css);
+@import url(./blocks/auth/auth.css);
+@import url(./blocks/auth/__title/auth__title.css);
+@import url(./blocks/auth/__form/auth__form.css);
+@import url(./blocks/auth/__input/auth__input.css);
+@import url(./blocks/auth/__save-btn/auth__save-btn.css);
+@import url(./blocks/auth/__to-login/auth__to-login.css);
 
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__text/footer__text.css);

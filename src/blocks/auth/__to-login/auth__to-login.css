@@ -1,0 +1,12 @@
+.auth__to-login {
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  line-height: 17px;
+  font-size: 14px;
+  margin: 15px auto 0 auto;
+  transition: all .2s ease-in-out;
+}
+.auth__to-login:hover {
+  opacity: 0.6;
+}
