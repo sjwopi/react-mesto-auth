@@ -1,13 +1,10 @@
+import getResponse from "./utils";
+
 class Api {
   constructor(data) {
     this._baseUrl = data.baseUrl;
     this._headers = data.headers;
-  }
-  _getResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
+    this._getResponse = getResponse;
   }
 
   getInitialCards() {

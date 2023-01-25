@@ -1,8 +1,23 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 
-function Login() {
+function Login({onLogin}) {
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+
+  function handlePasswordInput(evt) {
+    setPassword(evt.target.value);
+  }
+
+  function handleEmailInput(evt) {
+    setEmail(evt.target.value);
+  }
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onLogin({ email, password });
+  }
   return (
     <>
       <Header>
@@ -24,8 +39,9 @@ function Login() {
               required
               minLength={2}
               maxLength={40}
+              onInput={handleEmailInput}
             />
-            
+
             <input
               id="password"
               name="password"
@@ -35,13 +51,17 @@ function Login() {
               required
               minLength={8}
               maxLength={40}
+              onInput={handlePasswordInput}
             />
-            
+
             <button
               name="save-button"
               type="submit"
               className="auth__save-btn"
-            >Войти</button>
+              onClick={handleSubmit}
+            >
+              Войти
+            </button>
           </form>
         </div>
       </main>

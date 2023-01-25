@@ -1,8 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Header from "./Header.js";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import Header from './Header.js';
 
-function Register() {
+function Register({onRegister}) {
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+
+  function handlePasswordInput(evt) {
+    setPassword(evt.target.value);
+  }
+
+  function handleEmailInput(evt) {
+    setEmail(evt.target.value);
+  }
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onRegister({ email, password });
+  }
   return (
     <>
       <Header>
@@ -24,8 +39,9 @@ function Register() {
               required
               minLength={2}
               maxLength={40}
+              onInput={handleEmailInput}
             />
-            
+
             <input
               id="password"
               name="password"
@@ -35,13 +51,17 @@ function Register() {
               required
               minLength={8}
               maxLength={40}
+              onInput={handlePasswordInput}
             />
-            
+
             <button
               name="save-button"
               type="submit"
               className="auth__save-btn"
-            >Зарегистрироваться</button>
+              onClick={handleSubmit}
+            >
+              Зарегистрироваться
+            </button>
           </form>
           <Link to="/sign-in" className="auth__to-login">
             Уже зарегистрированы? Войти
