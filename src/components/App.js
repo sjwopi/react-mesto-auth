@@ -31,8 +31,8 @@ function App() {
 
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [isRegistrationSuccessful, setIsRegistrationSuccessful] = React.useState(false);
-  const [authorizationEmail, setAuthorizationEmail] = React.useState('asdfasdf');
+  const [isRegSuccessful, setIsRegSuccessful] = React.useState(false);
+  const [email, setEmail] = React.useState(null);
 
   const navigate = useNavigate();
 
@@ -145,7 +145,7 @@ function App() {
       auth
         .checkAuth(jwt)
         .then(data => {
-          setAuthorizationEmail('asfdasdf');
+          setEmail(data.data.email);
           setIsLoggedIn(true);
           navigate("/");
         })
@@ -161,13 +161,13 @@ function App() {
     return auth
       .register(data)
       .then(() => {
-        setIsRegistrationSuccessful(true);
+        setIsRegSuccessful(true);
         openInfoTooltip();
         navigate("/sign-in");
       })
       .catch(err => {
         console.log(err);
-        setIsRegistrationSuccessful(false);
+        setIsRegSuccessful(false);
         openInfoTooltip();
       })
   }
@@ -191,8 +191,8 @@ function App() {
   function handleSignOut() {
     setIsLoggedIn(false);
     localStorage.removeItem('jwt');
-    setAuthorizationEmail(null);
-    navigate("/signin");
+    setEmail(null);
+    navigate("/sign-in");
   }
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -203,7 +203,7 @@ function App() {
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
                 <>
-                  <Header isLoggedIn={isLoggedIn} userEmail={authorizationEmail} onSignOut={handleSignOut} />
+                  <Header isLoggedIn={isLoggedIn} userEmail={email} onSignOut={handleSignOut} />
                   <Main
                     cards={cards}
                     onEditProfile={handleEditProfileClick}
@@ -269,7 +269,7 @@ function App() {
       />
       <InfoTooltip
         isOpen={isInfoTooltipOpen}
-        isSuccess={isRegistrationSuccessful}
+        isSuccess={isRegSuccessful}
         onClose={closeAllPopups}
         onCloseOverlay={closeCLickOverlay}
       />

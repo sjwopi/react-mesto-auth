@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import headerLogo from '../images/logo.svg';
 
 function Header({ children, userEmail, onSignOut }) {
+  
   return (
     <header className="header">
       <img src={headerLogo} alt="логотип" className="header__logo" />
