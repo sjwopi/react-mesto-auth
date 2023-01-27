@@ -20,7 +20,6 @@ export function login({ email, password }) {
     body: JSON.stringify({ email, password }),
   }).then((res) => getResponse(res));
 }
-
 export function checkAuth( token ) {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',

@@ -29,7 +29,7 @@ function Login({onLogin}) {
         <div className="auth">
           <h2 className="auth__title">Вход</h2>
 
-          <form name="auth-form" className="auth__form" noValidate>
+          <form name="auth-form" className="auth__form">
             <input
               id="email"
               name="enail"

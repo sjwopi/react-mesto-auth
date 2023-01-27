@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header.js';
 
-function Register({onRegister}) {
+function Register({ onRegister }) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
@@ -16,7 +16,6 @@ function Register({onRegister}) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    console.log({ email, password })
     onRegister({ email, password });
   }
   return (
@@ -30,7 +29,7 @@ function Register({onRegister}) {
         <div className="auth">
           <h2 className="auth__title">Регистрация</h2>
 
-          <form name="auth-form" className="auth__form" noValidate>
+          <form name="auth-form" className="auth__form">
             <input
               id="email"
               name="enail"

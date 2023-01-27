@@ -29,27 +29,29 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [currentUser, setCurrentUser] = React.useState({});
 
-
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isRegSuccessful, setIsRegSuccessful] = React.useState(false);
+  const [messageSuccessful, setMessageSuccessful] = React.useState(null);
   const [email, setEmail] = React.useState(null);
 
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch(console.error);
-    api
-      .getUserInfo()
-      .then((res) => {
-        setCurrentUser(res);
-      })
-      .catch(console.error);
-  }, []);
+    if (isLoggedIn) {
+      api
+        .getInitialCards()
+        .then((res) => {
+          setCards(res);
+        })
+        .catch(console.error);
+      api
+        .getUserInfo()
+        .then((res) => {
+          setCurrentUser(res);
+        })
+        .catch(console.error);
+    }
+  }, [isLoggedIn]);
   // открытие попапов
   function handleEditAvatarClick() {
     setIsPopupEditAvatarOpen(true);
@@ -74,6 +76,7 @@ function App() {
     setIsPopupAddPlaceOpen(false);
     setIsInfoTooltipOpen(false);
     setIsCardOpened(null);
+    setMessageSuccessful(null);
     setIsPopupConfirmActionOpen({ isOpen: false, card: {} });
   }
   function closeCLickOverlay(evt) {
@@ -162,12 +165,14 @@ function App() {
       .register(data)
       .then(() => {
         setIsRegSuccessful(true);
+        setMessageSuccessful('Вы успешно зарегистрировались!');
         openInfoTooltip();
         navigate("/sign-in");
       })
       .catch(err => {
         console.log(err);
         setIsRegSuccessful(false);
+        setMessageSuccessful('Что-то пошло не так! Попробуйте ещё раз.');
         openInfoTooltip();
       })
   }
@@ -270,6 +275,7 @@ function App() {
       <InfoTooltip
         isOpen={isInfoTooltipOpen}
         isSuccess={isRegSuccessful}
+        text={messageSuccessful}
         onClose={closeAllPopups}
         onCloseOverlay={closeCLickOverlay}
       />

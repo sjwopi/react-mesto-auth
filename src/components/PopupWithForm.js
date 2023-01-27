@@ -6,7 +6,7 @@ function PopupWithForm({
   onClose,
   onCloseOverlay,
   onSubmit,
-  children
+  children,
 }) {
   return (
     <div
@@ -20,7 +20,6 @@ function PopupWithForm({
           name={`${name}-form`}
           className={`form popup__form popup-${name}__form`}
           onSubmit={onSubmit}
-          noValidate
         >
           {children}
           <button
@@ -28,7 +27,9 @@ function PopupWithForm({
             type="submit"
             className={`popup__save-form popup-${name}__save-form`}
             onClick={onSubmit}
-          >{textBtn}</button>
+          >
+            {textBtn}
+          </button>
         </form>
 
         <button
